@@ -21,7 +21,6 @@ class SuratRepository {
     try {
       final response = await dio.get('https://equran.id/api/v2/surat/$idSurat');
       final data = suratDetailModelFromJson(response.toString());
-      log(response.toString());
       return data.data;
     } catch (e) {
       log("$e");

@@ -16,7 +16,7 @@ class _DetailSuratViewState extends State<DetailSuratView> {
   @override
   void initState() {
     context.read<DetailSuratCubit>().getDetailSurat(widget.idSurat);
-    // TODO: implement initState
+
     super.initState();
   }
 

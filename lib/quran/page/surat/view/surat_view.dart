@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_zezen/quran/data/model/surat_model.dart';
 import 'package:flutter_bloc_zezen/quran/page/detail_surat/view/detail_surat.dart';
-import 'package:flutter_bloc_zezen/quran/page/surat/cubit/surat/surat_cubit.dart';
+import 'package:flutter_bloc_zezen/quran/page/surat/bloc/surat/surat_bloc.dart';
 
 class SuratView extends StatefulWidget {
   const SuratView({super.key});
@@ -13,27 +14,56 @@ class SuratView extends StatefulWidget {
 class _SuratViewState extends State<SuratView> {
   @override
   void initState() {
-    // TODO: implement initState
-    context.read<SuratCubit>().getAllSurat();
+    // context.read<SuratCubit>().getAllSurat();
+    context.read<SuratBloc>().add(GetSuratEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FloatingActionButton(
+              heroTag: null,
+              child: const Icon(Icons.remove),
+              onPressed: () {
+                context.read<SuratBloc>().add(Decrement());
+              },
+            ),
+            const SizedBox(
+              width: 20.0,
+            ),
+            FloatingActionButton(
+              heroTag: null,
+              child: const Icon(Icons.add),
+              onPressed: () {
+                context.read<SuratBloc>().add(Increment());
+              },
+            ),
+          ],
+        ),
         appBar: AppBar(
           title: const Text('Surat'),
         ),
-        body: BlocBuilder<SuratCubit, SuratState>(
+        body: BlocBuilder<SuratBloc, SuratState>(
           builder: (context, state) {
-            if (state is SuratLoading) {
+            if (state.isLoading == true) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is SuratSuccess) {
-              return _listSurat(state);
+            if (state.allSurat != null) {
+              return Column(
+                children: [
+                  Text("${state.increment ?? 0}"),
+                  SizedBox(
+                      height: MediaQuery.sizeOf(context).height / 1.4,
+                      child: _listSurat(state)),
+                ],
+              );
             }
-            if (state is SuratError) {
-              return Center(child: Text(state.error));
+            if (state.error != null) {
+              return Center(child: Text(state.error!));
             }
             return const Center(
               child: Text('No data'),
@@ -42,11 +72,11 @@ class _SuratViewState extends State<SuratView> {
         ));
   }
 
-  ListView _listSurat(SuratSuccess state) {
+  ListView _listSurat(SuratState state) {
     return ListView.builder(
-      itemCount: state.allSurat.length,
+      itemCount: state.allSurat!.length,
       itemBuilder: (context, index) {
-        final surat = state.allSurat[index];
+        final surat = state.allSurat![index];
         return ListTile(
           onTap: () => Navigator.push(
               context,

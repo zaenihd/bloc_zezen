@@ -2,7 +2,6 @@
 //
 //     final suratModel = suratModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 SuratModel suratModelFromJson(String str) => SuratModel.fromJson(json.decode(str));

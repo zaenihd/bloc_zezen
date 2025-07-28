@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_zezen/home.dart';
 import 'package:flutter_bloc_zezen/quran/page/detail_surat/cubit/detail_surat/detail_surat_cubit.dart';
+import 'package:flutter_bloc_zezen/quran/page/surat/bloc/surat/surat_bloc.dart';
 import 'package:flutter_bloc_zezen/quran/page/surat/cubit/surat/surat_cubit.dart';
 import 'package:flutter_bloc_zezen/quran/data/repository/surat_repository.dart';
 
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SuratCubit(SuratRepository()),
+          create: (context) => SuratBloc(),
+          // create: (context) => SuratCubit(SuratRepository()),
         ),
         BlocProvider(
           create: (context) => DetailSuratCubit(SuratRepository()),

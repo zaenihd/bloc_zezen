@@ -15,7 +15,7 @@ final class DetailSuratSuccess extends DetailSuratState {
   const DetailSuratSuccess({required this.dataSurat});
 
   @override
-  // TODO: implement props
+
   List<Object> get props => [dataSurat];
 }
 final class DetailSuratError extends DetailSuratState {
@@ -24,6 +24,6 @@ final class DetailSuratError extends DetailSuratState {
   const DetailSuratError({required this.message});
 
   @override
-  // TODO: implement props
+
   List<Object> get props => [message];
 }
